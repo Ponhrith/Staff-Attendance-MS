@@ -22,7 +22,7 @@ class UserDataLoader : CommandLineRunner {
 
     private fun seedUsers() {
         if (userRepository.count() == 0L) {
-            val department = departmentRepository.findById(1).orElseThrow {
+            departmentRepository.findById(1).orElseThrow {
                 IllegalStateException("Department not found.")
             }
         }
