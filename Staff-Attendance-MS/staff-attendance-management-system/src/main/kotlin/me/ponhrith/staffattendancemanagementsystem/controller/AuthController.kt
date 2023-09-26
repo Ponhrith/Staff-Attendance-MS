@@ -9,10 +9,10 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/v1/auth")
-@CrossOrigin("http://localhost:8080/")
+@CrossOrigin("http://localhost:8084/")
 class AuthController(private val authService: AuthService) {
 
-    @CrossOrigin("http://localhost:8080/")
+    @CrossOrigin("http://localhost:8084/")
     @PostMapping("/login")
     fun login(@RequestBody loginReq: LoginReq): LoginRes {
         val username = loginReq.username

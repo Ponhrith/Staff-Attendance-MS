@@ -11,36 +11,36 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin("http://localhost:8080/")
+@CrossOrigin("http://localhost:8084/")
 class UserController(private val userService: UserService) {
 
     private val log = LoggerFactory.getLogger(this::class.java)
 
-    @CrossOrigin("http://localhost:8080/")
+    @CrossOrigin("http://localhost:8084/")
     @GetMapping
     fun listUsers(): List<UserRes> {
         return userService.listUser()
     }
 
-    @CrossOrigin("http://localhost:8080/")
+    @CrossOrigin("http://localhost:8084/")
     @GetMapping("/{id}")
     fun showUser(@PathVariable id: Long, auth: Authentication): UserRes {
         return userService.showUser(id, auth)
     }
 
-    @CrossOrigin("http://localhost:8080/")
+    @CrossOrigin("http://localhost:8084/")
     @PostMapping
     fun createUser(@RequestBody userReq: UserReq): UserRes {
         return userService.createUser(userReq)
     }
 
-    @CrossOrigin("http://localhost:8080/")
+    @CrossOrigin("http://localhost:8084/")
     @PutMapping("/{id}")
     fun updateUser(@PathVariable id: Long, @RequestBody updateUserReq: UpdateUserReq): UserRes {
         return userService.updateUser(id, updateUserReq)
     }
 
-    @CrossOrigin("http://localhost:8080/")
+    @CrossOrigin("http://localhost:8084/")
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable("id") id: Long): MessageRes {
         return userService.deleteUser(id)

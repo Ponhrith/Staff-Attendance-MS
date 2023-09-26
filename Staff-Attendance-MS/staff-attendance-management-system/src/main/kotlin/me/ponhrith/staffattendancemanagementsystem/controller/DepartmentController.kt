@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/departments")
-@CrossOrigin("http://localhost:8080/")
+@CrossOrigin("http://localhost:8084/")
 class DepartmentController(val departmentService: DepartmentService) {
 
-    @CrossOrigin("http://localhost:8080/")
+    @CrossOrigin("http://localhost:8084/")
     @GetMapping
     fun listDepartments(): List<DepartmentRes> {
         return departmentService.listDepartments()

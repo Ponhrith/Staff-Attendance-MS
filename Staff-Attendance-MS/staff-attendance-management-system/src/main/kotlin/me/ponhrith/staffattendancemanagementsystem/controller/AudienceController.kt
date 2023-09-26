@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/audiences")
-@CrossOrigin("http://localhost:8080/")
+@CrossOrigin("http://localhost:8084/")
 class AudienceController(val audienceService: AudienceService) {
 
-    @CrossOrigin("http://localhost:8080/")
+    @CrossOrigin("http://localhost:8084/")
     @GetMapping
     fun listAudiences(): List<AudienceRes> {
         return audienceService.listAudience()
