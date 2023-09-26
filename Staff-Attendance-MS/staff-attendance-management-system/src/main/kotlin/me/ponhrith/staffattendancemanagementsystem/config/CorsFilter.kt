@@ -11,7 +11,7 @@ class CorsFilter : OncePerRequestFilter() {
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8084")
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080")
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         response.setHeader("Access-Control-Allow-Headers", "authorization, content-type")
         response.setHeader("Access-Control-Allow-Credentials", "true")
