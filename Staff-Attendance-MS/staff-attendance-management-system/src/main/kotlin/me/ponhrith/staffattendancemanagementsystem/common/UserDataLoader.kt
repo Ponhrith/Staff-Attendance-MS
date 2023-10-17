@@ -33,6 +33,7 @@ class UserDataLoader : CommandLineRunner {
             username = "Samantha",
             gender = "Female",
             role = "ADMIN",
+            email = "samantha@gmail.com",
             password = passwordEncoder.encode("password"),
         ).apply {
             department = departmentRepository.findById(1).get()

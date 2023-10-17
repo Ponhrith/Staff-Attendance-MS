@@ -44,7 +44,7 @@ class AnnouncementService(
                     announcement.user.id,
                     announcement.user.username,
                     announcement.user.gender,
-                    announcement.user.role,
+                    announcement.user.email,
                     department = DepartmentRes(
                         announcement.user.department.id,
                         announcement.user.department.name
@@ -196,6 +196,7 @@ class AnnouncementService(
                 username = announcement.user.username,
                 gender = announcement.user.gender,
                 role = announcement.user.role,
+                email = announcement.user.email,
                 department = DepartmentRes(
                     id = announcement.user.department.id,
                     name = announcement.user.department.name
