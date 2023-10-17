@@ -17,6 +17,8 @@ data class User(
     var role: String,
     @Column(name = "password")
     var password: String,
+    @Column(name = "email")
+    var email: String,
 ) {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")

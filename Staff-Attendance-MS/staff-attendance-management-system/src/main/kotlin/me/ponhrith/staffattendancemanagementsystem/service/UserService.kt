@@ -35,7 +35,8 @@ class UserService(
                 username = user.username,
                 gender = user.gender,
                 role = user.role,
-                department = DepartmentRes(user.department.id, user.department.name)
+                department = DepartmentRes(user.department.id, user.department.name),
+                email = user.email,
             )
         }
     }
@@ -53,7 +54,8 @@ class UserService(
                 username = it.username,
                 gender = it.gender,
                 role = it.role,
-                department = DepartmentRes(it.department.id, it.department.name)
+                department = DepartmentRes(it.department.id, it.department.name),
+                email = it.email,
             )
         }
     }
@@ -81,7 +83,8 @@ class UserService(
             username = userReq.username,
             gender = userReq.gender,
             role = userReq.role,
-            password = encryptedPassword
+            password = encryptedPassword,
+            email = userReq.email
         ).apply {
             this.department = department
         }
@@ -97,7 +100,8 @@ class UserService(
             gender = savedUser.gender,
             role = savedUser.role,
             department = DepartmentRes(savedUser.department.id, savedUser.department.name),
-            password = generatedPassword
+            password = generatedPassword,
+            email = savedUser.email
         )
     }
 
@@ -118,13 +122,15 @@ class UserService(
             it.gender = updateUserReq.gender
             it.role = updateUserReq.role
             it.department = department
+            it.email = updateUserReq.email
             userRepository.save(it)
 
             UserRes(
                 username = it.username,
                 gender = it.gender,
                 role = it.role,
-                department = DepartmentRes(it.department.id, it.department.name)
+                department = DepartmentRes(it.department.id, it.department.name),
+                email = it.email
             )
         }
     }

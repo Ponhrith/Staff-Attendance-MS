@@ -5,5 +5,6 @@ data class UserReq(
     var gender: String,
     var role: String,
     var password: String?,
-    var departmentId: Long
+    var departmentId: Long,
+    var email: String,
 )

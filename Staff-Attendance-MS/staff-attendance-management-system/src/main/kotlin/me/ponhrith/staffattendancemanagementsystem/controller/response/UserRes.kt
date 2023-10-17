@@ -6,5 +6,6 @@ data class UserRes(
     val gender: String,
     val role: String,
     var department: DepartmentRes? = null,
-    val password: String? = null
+    val password: String? = null,
+    val email: String,
 )
