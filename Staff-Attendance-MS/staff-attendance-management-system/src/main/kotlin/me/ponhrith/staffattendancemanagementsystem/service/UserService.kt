@@ -128,9 +128,9 @@ class UserService(
             UserRes(
                 username = it.username,
                 gender = it.gender,
+                email = it.email,
                 role = it.role,
                 department = DepartmentRes(it.department.id, it.department.name),
-                email = it.email
             )
         }
     }
