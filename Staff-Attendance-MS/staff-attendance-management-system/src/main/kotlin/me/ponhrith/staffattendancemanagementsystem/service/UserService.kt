@@ -24,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException
 class UserService(
     private val userRepository: UserRepository,
     private val departmentRepository: DepartmentRepository,
+    private val emailService: EmailService,
 ) {
     private val log = LoggerFactory.getLogger(this::class.java)
 
@@ -92,6 +93,9 @@ class UserService(
         // Save user
         val savedUser = userRepository.save(userEntity)
         log.info("$savedUser has been added")
+
+        val emailText = "Your generated password is: $generatedPassword"
+        emailService.sendEmail(userReq.email, "User Created - Password", emailText)
 
         // Return user response
         return UserRes(

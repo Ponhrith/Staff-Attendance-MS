@@ -38,6 +38,8 @@ dependencies {
 	testImplementation("org.apache.httpcomponents.client5:httpclient5")
 	testImplementation("org.springframework.security:spring-security-crypto")
 	testImplementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework:spring-context-support:5.3.23")
+	implementation("com.sun.mail:jakarta.mail:1.6.7")
 }
 
 tasks.withType<KotlinCompile> {
