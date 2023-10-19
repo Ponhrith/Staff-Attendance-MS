@@ -5,16 +5,16 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5433/staff_attendance
-    username: "user"
-    password: "password"
+    url: ${db_url}
+    username: ${db_username}
+    password: ${db_password}
     driver-class-name: org.postgresql.Driver
 
   mail:
     host:  smtp.gmail.com
     port: 587
-    username: "testfinalprojecthdsd@gmail.com"
-    password: "mtok umlt ssyc izvt"
+    username: ${mail_username}
+    password: ${mail_password}
     properties:
       mail:
         smtp:
