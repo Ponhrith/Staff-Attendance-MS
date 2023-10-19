@@ -94,8 +94,9 @@ class UserService(
         val savedUser = userRepository.save(userEntity)
         log.info("$savedUser has been added")
 
-        val emailText = "Your generated password is: $generatedPassword"
-        emailService.sendEmail(userReq.email, "Staff Attendance Management System - Password", emailText)
+
+        val emailText = "Your username is: ${userReq.username}\nYour generated password is: $generatedPassword"
+        emailService.sendEmail(userReq.email, "Staff Attendance Management System - Welcome", emailText)
 
         // Return user response
         return UserRes(
