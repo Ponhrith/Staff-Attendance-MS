@@ -24,22 +24,9 @@ class SecurityConfig(private val userRepository: UserRepository) : WebSecurityCo
         return BCryptPasswordEncoder()
     }
 
-//    override fun configure(http: HttpSecurity) {
-//        http
-//            .authorizeRequests()
-//            .antMatchers("/api/v1/users/{id}").access("hasRole('USER') or hasRole('ADMIN')")
-//            .antMatchers("/api/v1/users/**").hasRole("ADMIN")
-//            .anyRequest().authenticated()
-//            .and()
-//            .httpBasic()
-//            .and()
-//            .csrf().disable()
-//    }
-
     override fun configure(http: HttpSecurity) {
         http
             .authorizeRequests()
-            // Your existing authorization rules
             .antMatchers("/api/v1/users/{id}").access("hasRole('USER') or hasRole('ADMIN')")
             .antMatchers("/api/v1/users/**").hasRole("ADMIN")
             .anyRequest().authenticated()
@@ -47,18 +34,31 @@ class SecurityConfig(private val userRepository: UserRepository) : WebSecurityCo
             .httpBasic()
             .and()
             .csrf().disable()
-            .rememberMe() // Enable "Remember Me"
-            .key("your-unique-key") // A unique key to identify the token
-            .userDetailsService(userDetailsService()) // Provide your UserDetailsService
-            .rememberMeParameter("remember-me") // The parameter name in your login form
-            .rememberMeCookieName("your-remember-me-cookie-name")
-            .tokenValiditySeconds(tokenValidityInSeconds) // Define token validity
-            .and()
-            .sessionManagement()
-            .sessionFixation().none()
-            .maximumSessions(1) // Enforce one session per user
-            .maxSessionsPreventsLogin(false) // New login invalidates old sessions
     }
+
+//    override fun configure(http: HttpSecurity) {
+//        http
+//            .authorizeRequests()
+//            // Your existing authorization rules
+//            .antMatchers("/api/v1/users/{id}").access("hasRole('USER') or hasRole('ADMIN')")
+//            .antMatchers("/api/v1/users/**").hasRole("ADMIN")
+//            .anyRequest().authenticated()
+//            .and()
+//            .httpBasic()
+//            .and()
+//            .csrf().disable()
+//            .rememberMe() // Enable "Remember Me"
+//            .key("your-unique-key") // A unique key to identify the token
+//            .userDetailsService(userDetailsService()) // Provide your UserDetailsService
+//            .rememberMeParameter("remember-me") // The parameter name in your login form
+//            .rememberMeCookieName("your-remember-me-cookie-name")
+//            .tokenValiditySeconds(tokenValidityInSeconds) // Define token validity
+//            .and()
+//            .sessionManagement()
+//            .sessionFixation().none()
+//            .maximumSessions(1) // Enforce one session per user
+//            .maxSessionsPreventsLogin(false) // New login invalidates old sessions
+//    }
 
 
 
