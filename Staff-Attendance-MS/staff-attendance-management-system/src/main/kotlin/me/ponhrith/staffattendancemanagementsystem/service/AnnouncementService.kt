@@ -147,22 +147,30 @@ class AnnouncementService(
             this.effective_date = updateAnnouncementReq.effectiveDate
             this.expired_date = updateAnnouncementReq.expiredDate
         }
-        val savedAnnouncement = announcementRepository.save(existedAnnouncement)
-        audienceRepository.deleteAllByAnnouncementId(id)
-        if(updateAnnouncementReq.departmentIds.isNotEmpty()){
+
+        if (updateAnnouncementReq.departmentIds.isNullOrEmpty()) {
+            // If departmentIds is empty or null, update to "public" by deleting all audiences
+            audienceRepository.deleteAllByAnnouncementId(id)
+        } else {
+            // Create new audiences based on departmentIds
+            audienceRepository.deleteAllByAnnouncementId(id)
             for (departmentId in updateAnnouncementReq.departmentIds) {
                 val department = departmentRepository.findById(departmentId)
                 if (department.isPresent) {
                     val audience = Audience().apply {
-                        this.announcement = savedAnnouncement
+                        this.announcement = existedAnnouncement
                         this.department = department.get()
                     }
                     audienceRepository.save(audience)
                 }
             }
         }
+
+        // Save the updated announcement
+        announcementRepository.save(existedAnnouncement)
     }
-    
+
+
     @Transactional
     fun deleteAnnouncement(id: Long): MessageRes {
         val existedAnnouncement = announcementRepository.findById(id)
