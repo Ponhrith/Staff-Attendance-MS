@@ -14,7 +14,8 @@ class CorsFilter : OncePerRequestFilter() {
         val origin = request.getHeader("Origin")
         response.setHeader("Access-Control-Allow-Origin", origin) // Set the origin dynamically
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        response.setHeader("Access-Control-Allow-Headers", "authorization, content-type")
+        response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, x-requested-with")
+        response.setHeader("WWW-Authenticate", "xBasic")
         response.setHeader("Access-Control-Allow-Credentials", "true")
         response.setHeader("Access-Control-Max-Age", "3600")
 
