@@ -136,6 +136,40 @@ class AnnouncementService(
         return mapToAnnouncementRes(savedAnnouncement, audiences)
     }
 
+//    @Transactional
+//    fun updateAnnouncement(id: Long, updateAnnouncementReq: UpdateAnnouncementReq) {
+//        val existedAnnouncement = announcementRepository.findById(id)
+//            .orElseThrow { GeneralException("No announcement found: $id") }
+//
+//        existedAnnouncement.apply {
+//            this.title = updateAnnouncementReq.title
+//            this.content = updateAnnouncementReq.content
+//            this.effective_date = updateAnnouncementReq.effectiveDate
+//            this.expired_date = updateAnnouncementReq.expiredDate
+//        }
+//
+//        if (updateAnnouncementReq.departmentIds.isNullOrEmpty()) {
+//            // If departmentIds is empty or null, update to "public" by deleting all audiences
+//            audienceRepository.deleteAllByAnnouncementId(id)
+//        } else {
+//            // Create new audiences based on departmentIds
+//            audienceRepository.deleteAllByAnnouncementId(id)
+//            for (departmentId in updateAnnouncementReq.departmentIds) {
+//                val department = departmentRepository.findById(departmentId)
+//                if (department.isPresent) {
+//                    val audience = Audience().apply {
+//                        this.announcement = existedAnnouncement
+//                        this.department = department.get()
+//                    }
+//                    audienceRepository.save(audience)
+//                }
+//            }
+//        }
+//
+//        // Save the updated announcement
+//        announcementRepository.save(existedAnnouncement)
+//    }
+
     @Transactional
     fun updateAnnouncement(id: Long, updateAnnouncementReq: UpdateAnnouncementReq) {
         val existedAnnouncement = announcementRepository.findById(id)
@@ -148,17 +182,14 @@ class AnnouncementService(
             this.expired_date = updateAnnouncementReq.expiredDate
         }
 
-        if (updateAnnouncementReq.departmentIds.isNullOrEmpty()) {
-            // If departmentIds is empty or null, update to "public" by deleting all audiences
-            audienceRepository.deleteAllByAnnouncementId(id)
-        } else {
-            // Create new audiences based on departmentIds
-            audienceRepository.deleteAllByAnnouncementId(id)
+        val savedAnnouncement = announcementRepository.save(existedAnnouncement)
+        audienceRepository.deleteAllByAnnouncementId(id)
+        if(updateAnnouncementReq.departmentIds.isNotEmpty()){
             for (departmentId in updateAnnouncementReq.departmentIds) {
                 val department = departmentRepository.findById(departmentId)
                 if (department.isPresent) {
                     val audience = Audience().apply {
-                        this.announcement = existedAnnouncement
+                        this.announcement = savedAnnouncement
                         this.department = department.get()
                     }
                     audienceRepository.save(audience)
