@@ -1,6 +1,7 @@
 package me.ponhrith.staffattendancemanagementsystem.model
 
 import java.time.LocalDate
+import java.time.LocalTime
 import javax.persistence.*
 
 @Entity
@@ -12,10 +13,12 @@ data class Attendance(
     var date: LocalDate,
     @Column(name = "status")
     var status: String,
+    @Column(name = "time")
+    var time: LocalTime,
     @Column(name = "checked_in")
     var checked_in: Boolean,
 
-) {
+    ) {
     @ManyToOne
     @JoinColumn(name = "user_id")
     lateinit var user: User
