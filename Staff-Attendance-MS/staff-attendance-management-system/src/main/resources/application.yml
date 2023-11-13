@@ -21,6 +21,8 @@ spring:
           auth: true
           starttls.enable: true
 
+  jackson:
+    time-zone: Asia/Phnom_Penh
 server:
   port: 8084
 
