@@ -20,6 +20,55 @@ class AttendanceService(
     @Autowired private val userRepository: UserRepository
 ) {
 
+    // Function to list all attendance records
+    fun listAttendance(): List<AttendanceRes> {
+        val allAttendance = attendanceRepository.findAll()
+
+        return allAttendance.map { attendance ->
+            AttendanceRes(
+                id = attendance.id,
+                user = UserRes(
+                    attendance.user.id,
+                    attendance.user.username,
+                    attendance.user.gender,
+                    attendance.user.email,
+                    department = DepartmentRes(
+                        attendance.user.department.id,
+                        attendance.user.department.name
+                    )
+                ),
+                date = attendance.date,
+                time = attendance.time,
+                status = attendance.status,
+                checkedIn = attendance.checked_in
+            )
+        }
+    }
+
+    // Function to show a specific attendance record
+    fun showAttendance(id: Long): AttendanceRes {
+        val attendance = attendanceRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Attendance record not found: $id") }
+
+        return AttendanceRes(
+            id = attendance.id,
+            user = UserRes(
+                attendance.user.id,
+                attendance.user.username,
+                attendance.user.gender,
+                attendance.user.email,
+                department = DepartmentRes(
+                    attendance.user.department.id,
+                    attendance.user.department.name
+                )
+            ),
+            date = attendance.date,
+            time = attendance.time,
+            status = attendance.status,
+            checkedIn = attendance.checked_in
+        )
+    }
+
     fun checkAttendance(attendanceReq: AttendanceReq): AttendanceRes {
         // Find the user by their username
         val user = userRepository.findByUsername(attendanceReq.username)

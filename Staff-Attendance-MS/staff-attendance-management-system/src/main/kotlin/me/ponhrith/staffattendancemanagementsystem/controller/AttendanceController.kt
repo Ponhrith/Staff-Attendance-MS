@@ -12,6 +12,18 @@ import org.springframework.web.bind.annotation.*
 class AttendanceController(@Autowired private val attendanceService: AttendanceService) {
 
     @CrossOrigin("http://localhost:8084/")
+    @GetMapping
+    fun listAttendance(): List<AttendanceRes> {
+        return attendanceService.listAttendance()
+    }
+
+    @CrossOrigin("http://localhost:8084/")
+    @GetMapping("/{id}")
+    fun showAttendance(@PathVariable id: Long): AttendanceRes {
+        return attendanceService.showAttendance(id)
+    }
+
+    @CrossOrigin("http://localhost:8084/")
     @PostMapping
     fun checkAttendance(@RequestBody attendanceReq: AttendanceReq): AttendanceRes {
         return attendanceService.checkAttendance(attendanceReq)
