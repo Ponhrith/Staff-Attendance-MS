@@ -4,10 +4,12 @@ import me.ponhrith.staffattendancemanagementsystem.controller.request.Attendance
 import me.ponhrith.staffattendancemanagementsystem.controller.response.AttendanceRes
 import me.ponhrith.staffattendancemanagementsystem.controller.response.DepartmentRes
 import me.ponhrith.staffattendancemanagementsystem.controller.response.UserRes
+import me.ponhrith.staffattendancemanagementsystem.exception.GeneralException
 import me.ponhrith.staffattendancemanagementsystem.model.Attendance
 import me.ponhrith.staffattendancemanagementsystem.repository.AttendanceRepository
 import me.ponhrith.staffattendancemanagementsystem.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalTime
@@ -44,6 +46,48 @@ class AttendanceService(
             )
         }
     }
+
+    // Add a function to get attendance records for a specific user
+    fun listUserAttendance(username: String, auth: Authentication): List<AttendanceRes> {
+        val requestingUser = userRepository.findByUsername(username)
+            ?: throw NoSuchElementException("User not found")
+
+        // Check if the authenticated user is an admin
+        if (!auth.authorities.any { it.toString() == "ROLE_ADMIN" }) {
+            // If not an admin, check if the authenticated user is requesting their own attendance
+            val currentUser = userRepository.findByUsername(auth.name)
+                ?: throw NoSuchElementException("User not found")
+
+            if (currentUser.id != requestingUser.id) {
+                throw GeneralException("You don't have permission to view other user's attendance records.")
+            }
+        }
+
+        // Continue fetching and returning the attendance records for the requested user
+        val userAttendance = attendanceRepository.findByUser(requestingUser)
+
+        return userAttendance.map { attendance ->
+            AttendanceRes(
+                id = attendance.id,
+                user = UserRes(
+                    attendance.user.id,
+                    attendance.user.username,
+                    attendance.user.gender,
+                    attendance.user.email,
+                    department = DepartmentRes(
+                        attendance.user.department.id,
+                        attendance.user.department.name
+                    )
+                ),
+                date = attendance.date,
+                time = attendance.time,
+                status = attendance.status,
+                checkedIn = attendance.checked_in
+            )
+        }
+    }
+
+
 
     // Function to show a specific attendance record
     fun showAttendance(id: Long): AttendanceRes {

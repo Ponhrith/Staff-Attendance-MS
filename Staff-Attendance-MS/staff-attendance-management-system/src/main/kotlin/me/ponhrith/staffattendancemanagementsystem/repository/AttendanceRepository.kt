@@ -10,4 +10,5 @@ import java.time.LocalDate
 interface AttendanceRepository : JpaRepository<Attendance, Long> {
 
     fun findByUserAndDate(user: User, date: LocalDate): Attendance?
+    fun findByUser(user: User): List<Attendance>
 }
